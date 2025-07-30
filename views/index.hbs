@@ -1,17 +1,17 @@
 <html>
 
 <head>
-  <title>User List</title>
+  <title>Account List</title>
 </head>
 
 <body>
-  <h1>User List</h1>
-  {{#each users}}
-    <p>ID: {{this.id}}</p>
-    <p>Username: {{this.username}}</p>
-    <p>Email: {{this.email}}</p>
-    <p>Created At: {{this.createdAt}}</p>
-    <hr>
+  <h1>Account List</h1>
+  {{#each accounts}}
+  <p>ID: {{this.id}}</p>
+  <p>Accountname: {{this.accountname}}</p>
+  <p>Email: {{this.email}}</p>
+  <p>Created At: {{this.createdAt}}</p>
+  <hr>
   {{/each}}
 </body>
 
