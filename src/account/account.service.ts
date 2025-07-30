@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Account } from './schemas/account.schema';
 import { CreateAccountDto } from './dtos/create-account.dto';
 import { AccountRepository } from './account.repository';
-
 import { UpdateAccountDto } from './dtos/update-account.dto';
 
 @Injectable()
 export class AccountService {
+  private readonly logger = new Logger(AccountService.name);
   constructor(private readonly accountRepository: AccountRepository) {}
 
   create(createAccountDto: CreateAccountDto): Promise<Account> {
