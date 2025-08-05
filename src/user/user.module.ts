@@ -7,9 +7,7 @@ import { UserRepository } from './repositories/user.repository';
 import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
   controllers: [UserController],
   providers: [UserService, UserRepository, RolesGuard],
   exports: [UserService, UserRepository],

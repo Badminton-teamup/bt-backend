@@ -1,8 +1,11 @@
-import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { GetUser } from './decorators/get-user.decorator';
+import { UserDocument } from '../user/schemas/user.schema';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -23,5 +26,24 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Invalid login credentials' })
   async login(@Body(ValidationPipe) loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current user information' })
+  @ApiResponse({
+    status: 200,
+    description: 'User information retrieved successfully',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  getCurrentUser(@GetUser() user: UserDocument) {
+    return {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      phone: user.phone,
+    };
   }
 }

@@ -27,6 +27,9 @@ export class User {
 
   @Prop()
   avatar?: string;
+
+  @Prop({ required: false })
+  phone?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

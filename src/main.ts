@@ -10,6 +10,19 @@ async function bootstrap() {
     logger: ['log', 'error', 'warn', 'debug', 'verbose'],
   });
 
+  // Enable CORS for frontend communication
+  const allowedOrigins =
+    process.env.NODE_ENV === 'production'
+      ? process.env.FRONTEND_URL?.split(',') || []
+      : ['http://localhost:3006', 'http://127.0.0.1:3006'];
+
+  app.enableCors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Allow cookies and authorization headers
+  });
+
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()

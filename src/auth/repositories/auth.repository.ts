@@ -18,11 +18,12 @@ export class AuthRepository {
   async validateUser(loginDto: LoginDto): Promise<UserDocument | null> {
     const user = await this.userRepository.findByEmail(loginDto.email);
     if (!user) return null;
-    const isPasswordValid = await bcrypt.compare(
-      loginDto.password,
-      user.password,
-    );
+    const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
     if (!isPasswordValid) return null;
     return user;
+  }
+
+  async findUserByEmail(email: string): Promise<UserDocument | null> {
+    return this.userRepository.findByEmail(email);
   }
 }
